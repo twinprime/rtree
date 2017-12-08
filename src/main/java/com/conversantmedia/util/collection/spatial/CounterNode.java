@@ -21,6 +21,7 @@ package com.conversantmedia.util.collection.spatial;
  */
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Created by jcovert on 6/18/15.
@@ -74,14 +75,12 @@ final class CounterNode<T> implements Node<T> {
     }
 
     @Override
-    public void forEach(Consumer<T> consumer) {
-        node.forEach(consumer);
+    public boolean forEach(Predicate<T> consumer) {
+        return node.forEach(consumer);
     }
 
     @Override
-    public void search(HyperRect rect, Consumer<T> consumer) {
-        node.search(rect, consumer);
-    }
+    public boolean search(HyperRect rect, Predicate<T> consumer) { return node.search(rect, consumer); }
 
     @Override
     public int intersects(HyperRect rect, T[] t, int n) {
@@ -89,8 +88,8 @@ final class CounterNode<T> implements Node<T> {
     }
 
     @Override
-    public void intersects(HyperRect rect, Consumer<T> consumer) {
-        node.intersects(rect, consumer);
+    public boolean intersects(HyperRect rect, Predicate<T> consumer) {
+        return node.intersects(rect, consumer);
     }
 
     @Override

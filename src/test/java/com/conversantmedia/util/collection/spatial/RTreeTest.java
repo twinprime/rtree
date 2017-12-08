@@ -167,7 +167,7 @@ public class RTreeTest {
             }
 
             final AtomicInteger visitCount = new AtomicInteger();
-            rTree.search(searchRect, (n) -> {visitCount.incrementAndGet();});
+            rTree.search(searchRect, (n) -> {visitCount.incrementAndGet(); return true; });
             Assert.assertEquals(entryCount, visitCount.get());
 
             final int expectedCount = entryCount;
@@ -431,7 +431,7 @@ public class RTreeTest {
 
         final AtomicInteger hitCount = new AtomicInteger();
         // but 5, 2, 6, 3 must still be found!
-        rTree.search(search, (closure) -> { hitCount.incrementAndGet();});
+        rTree.search(search, (closure) -> { hitCount.incrementAndGet(); return true; });
 
         Assert.assertEquals(1, hitCount.get());
 

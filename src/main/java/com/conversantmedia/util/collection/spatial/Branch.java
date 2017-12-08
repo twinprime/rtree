@@ -21,6 +21,7 @@ package com.conversantmedia.util.collection.spatial;
  */
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * RTree node that contains leaf nodes
@@ -170,12 +171,13 @@ final class Branch<T> implements Node<T> {
     }
 
     @Override
-    public void search(HyperRect rect, Consumer<T> consumer) {
+    public boolean search(HyperRect rect, Predicate<T> consumer) {
         for(int i = 0; i < size; i++) {
             if(rect.intersects(child[i].getBound())) {
-                child[i].search(rect, consumer);
+                if (!child[i].search(rect, consumer)) return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -191,12 +193,13 @@ final class Branch<T> implements Node<T> {
     }
 
     @Override
-    public void intersects(HyperRect rect, Consumer<T> consumer) {
+    public boolean intersects(HyperRect rect, Predicate<T> consumer) {
         for(int i = 0; i < size; i++) {
             if(rect.intersects(child[i].getBound())) {
-                child[i].search(rect, consumer);
+                if (!child[i].intersects(rect, consumer)) return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -281,10 +284,11 @@ final class Branch<T> implements Node<T> {
     }
 
     @Override
-    public void forEach(Consumer<T> consumer) {
+    public boolean forEach(Predicate<T> consumer) {
         for(int i = 0; i < size; i++) {
-            child[i].forEach(consumer);
+            if (!child[i].forEach(consumer)) return false;
         }
+        return true;
     }
 
     @Override

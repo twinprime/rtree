@@ -21,6 +21,7 @@ package com.conversantmedia.util.collection.spatial;
  */
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Node that will contain the data entries. Implemented by different type of SplitType leaf classes.
@@ -162,12 +163,13 @@ abstract class Leaf<T> implements Node<T> {
     }
 
     @Override
-    public void search(HyperRect rect, Consumer<T> consumer) {
+    public boolean search(HyperRect rect, Predicate<T> consumer) {
         for(int i = 0; i < size; i++) {
             if(rect.contains(r[i])) {
-                consumer.accept(entry[i]);
+                if (!consumer.test(entry[i])) return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -184,12 +186,13 @@ abstract class Leaf<T> implements Node<T> {
     }
 
     @Override
-    public void intersects(HyperRect rect, Consumer<T> consumer) {
+    public boolean intersects(HyperRect rect, Predicate<T> consumer) {
         for(int i = 0; i < size; i++) {
             if(rect.intersects(r[i])) {
-                consumer.accept(entry[i]);
+                if (!consumer.test(entry[i])) return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -237,10 +240,11 @@ abstract class Leaf<T> implements Node<T> {
     protected abstract Node<T> split(final T t);
 
     @Override
-    public void forEach(Consumer<T> consumer) {
+    public boolean forEach(Predicate<T> consumer) {
         for(int i = 0; i < size; i++) {
-            consumer.accept(entry[i]);
+            if (!consumer.test(entry[i])) return false;
         }
+        return true;
     }
 
     @Override

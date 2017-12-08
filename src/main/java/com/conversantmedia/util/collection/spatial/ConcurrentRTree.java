@@ -23,6 +23,7 @@ package com.conversantmedia.util.collection.spatial;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Created by jcovert on 12/30/15.
@@ -50,7 +51,7 @@ public class ConcurrentRTree<T> implements SpatialSearch<T> {
     }
 
     @Override
-    public void intersects(HyperRect rect, Consumer<T> consumer) {
+    public void intersects(HyperRect rect, Predicate<T> consumer) {
         readLock.lock();
         try {
             rTree.intersects(rect, consumer);
@@ -210,7 +211,7 @@ public class ConcurrentRTree<T> implements SpatialSearch<T> {
     }
 
     @Override
-    public void forEach(final Consumer<T> consumer) {
+    public void forEach(final Predicate<T> consumer) {
         readLock.lock();
         try {
             rTree.forEach(consumer);
@@ -220,7 +221,7 @@ public class ConcurrentRTree<T> implements SpatialSearch<T> {
     }
 
     @Override
-    public void search(final HyperRect rect, final Consumer<T> consumer) {
+    public void search(final HyperRect rect, final Predicate<T> consumer) {
         readLock.lock();
         try {
             rTree.search(rect, consumer);

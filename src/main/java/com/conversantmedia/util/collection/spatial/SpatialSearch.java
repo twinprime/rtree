@@ -21,6 +21,7 @@ package com.conversantmedia.util.collection.spatial;
  */
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Created by jcovert on 12/30/15.
@@ -40,10 +41,10 @@ public interface SpatialSearch<T> {
      * Search for entries intersecting given bounding rect
      *
      * @param rect - Bounding rectangle to use for querying
-     * @param consumer - callback to receive intersecting objects
+     * @param consumer - callback to receive intersecting objects, return false to stop search
      *
      */
-    void intersects(final HyperRect rect, final Consumer<T> consumer);
+    void intersects(final HyperRect rect, final Predicate<T> consumer);
 
 
     /**
@@ -60,10 +61,10 @@ public interface SpatialSearch<T> {
      * Search for entries contained by the given bounding rect
      *
      * @param rect - Bounding rectangle to use for querying
-     * @param consumer - callback to receive intersecting objects
+     * @param consumer - callback to receive intersecting objects, return false to stop search
      *
      */
-    void search(final HyperRect rect, final Consumer<T> consumer);
+    void search(final HyperRect rect, final Predicate<T> consumer);
 
     /**
      * returns whether or not the HyperRect will enclose all of the data entries in t
@@ -106,9 +107,9 @@ public interface SpatialSearch<T> {
     /**
      * Iterate over all entries in the tree
      *
-     * @param consumer - callback for each element
+     * @param consumer - callback for each element, return false to stop iteration
      */
-    void forEach(Consumer<T> consumer);
+    void forEach(Predicate<T> consumer);
 
     Stats collectStats();
 

@@ -21,6 +21,7 @@ package com.conversantmedia.util.collection.spatial;
  */
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * <p>Data structure to make range searching more efficient. Indexes multi-dimensional information
@@ -57,7 +58,7 @@ public final class RTree<T> implements SpatialSearch<T> {
     }
 
     @Override
-    public void search(HyperRect rect, Consumer<T> consumer) {
+    public void search(HyperRect rect, Predicate<T> consumer) {
         if(root != null) {
             root.search(rect, consumer);
         }
@@ -72,7 +73,7 @@ public final class RTree<T> implements SpatialSearch<T> {
     }
 
     @Override
-    public void intersects(HyperRect rect, Consumer<T> consumer) {
+    public void intersects(HyperRect rect, Predicate<T> consumer) {
         if(root != null) {
             root.intersects(rect, consumer);
         }
@@ -135,7 +136,7 @@ public final class RTree<T> implements SpatialSearch<T> {
     }
 
     @Override
-    public void forEach(Consumer<T> consumer) {
+    public void forEach(Predicate<T> consumer) {
         if(root != null) {
             root.forEach(consumer);
         }

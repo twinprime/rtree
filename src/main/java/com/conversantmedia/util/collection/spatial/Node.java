@@ -21,6 +21,7 @@ package com.conversantmedia.util.collection.spatial;
  */
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Created by jcairns on 4/30/15.
@@ -76,8 +77,9 @@ interface Node<T> {
      *
      * @param rect - limiting rect
      * @param consumer
+     * @return false if search was terminated by predicate
      */
-    void search(HyperRect rect, Consumer<T> consumer);
+    boolean search(HyperRect rect, Predicate<T> consumer);
 
     /**
      * intersect rect with this node
@@ -96,8 +98,9 @@ interface Node<T> {
      *
      * @param rect - limiting rect
      * @param consumer
+     * @return false if search was terminated by predicate
      */
-    void intersects(HyperRect rect, Consumer<T> consumer);
+    boolean intersects(HyperRect rect, Predicate<T> consumer);
 
 
     /**
@@ -127,7 +130,7 @@ interface Node<T> {
      *
      * @param consumer
      */
-    void forEach(Consumer<T> consumer);
+    boolean forEach(Predicate<T> consumer);
 
     /**
      * Recurses over index collecting stats
